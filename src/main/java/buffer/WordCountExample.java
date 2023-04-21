@@ -58,16 +58,15 @@ public class WordCountExample {
 
         @Override
         public Map<String, Integer> call() throws Exception {
-            val map = new HashMap<String, Integer>();
-            val accessFile = new RandomAccessFile(filename, "rw");
-            val channel = accessFile.getChannel();
-            val mBuffer = channel.map(
-                    FileChannel.MapMode.READ_ONLY,
-                    this.start,
-                    this.end - this.start
-            );
-            val charBuffer = StandardCharsets.US_ASCII.decode(mBuffer);
-            return countByString(charBuffer.toString());
+            try (val channel = new RandomAccessFile(filename, "rw").getChannel()) {
+                val mBuffer = channel.map(
+                        FileChannel.MapMode.READ_ONLY,
+                        this.start,
+                        this.end - this.start
+                );
+                val charBuffer = StandardCharsets.US_ASCII.decode(mBuffer);
+                return countByString(charBuffer.toString());
+            }
         }
     }
 

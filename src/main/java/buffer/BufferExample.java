@@ -72,7 +72,7 @@ public class BufferExample {
             var start = System.currentTimeMillis();
             while (channel.read(buffer) != -1) {
                 buffer.flip();  // 读写模式切换
-//                System.out.println(new String(buffer.array()));
+                System.out.println(new String(buffer.array()));
                 buffer.clear();
             }
             System.out.println("执行时间：" + (System.currentTimeMillis() - start));
